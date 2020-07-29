@@ -1,0 +1,557 @@
+<button style="background-color: #1d87cf;
+      position: fixed;
+      top: 30%;
+      right: 1rem;" class="btn btn-primary" (click)="seeOrder()">View Order</button>
+
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+    <ng-template matStepLabel>Basic Details</ng-template>
+    <br>
+         <table>
+
+      <tr>
+        <td><h5>Requisition Name&nbsp;</h5></td>
+        <td>
+        <input type="text" class="form-control"  [(ngModel)]="po.reqName" formControlName="reqName"  required>
+        </td>
+      </tr>
+     <br>
+      <tr>
+        <td><h5>Urgent Message&nbsp;</h5></td>
+        <td>
+      	<input type="radio" formControlName="urg_msg" [(ngModel)]="po.urg_msg" value="yes">Yes
+        <input type="radio" formControlName="urg_msg"  [(ngModel)]="po.urg_msg" value="no">No
+        </td>
+      </tr>
+      <br>
+      <tr>
+       <td><h5>Attachment</h5></td>
+       <td>
+       <input type="file" formControlName="attachments"  (change)="onFileChange($event)" [(ngModel)]="image" required>
+       </td>
+       <td>
+        <button type="button" (click)="onUpload()">Upload</button>
+        </td>
+        <td>
+        <button type="button" (click)="onReset()">Reset</button>
+        </td>
+      </tr>
+
+      <br>
+
+       <tr>
+      <td>
+      </td>
+      <td>
+      <div [hidden] = "change"  style="text-align: center;">
+      <br>
+      <hr>
+
+      <mat-card style="background-color:lavender;">
+          <mat-card-header>
+            <mat-card-title>Uploaded Attachments</mat-card-title>
+          </mat-card-header>
+        <div class="row">
+          <div class="col-sm-4"  *ngFor="let image of imageNames; let i=index;">
+            <p>{{ image }}
+            <button mat-button-raised (click)="removeImage(i)">X</button>
+            </p>
+          </div>
+          </div>
+      </mat-card>
+
+      <hr>
+      <br>
+      </div>
+      </td>
+      </tr>
+      <br>
+
+      <tr>
+       <td><h5>Reason for Ordering</h5></td>
+       <td>
+       <input  type="text" class="form-control" [(ngModel)]="po.reason" formControlName="reason" required>
+       </td>
+      </tr>
+
+            <br>
+
+      <tr>
+       <td><h5>Comment for supplier</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.comment"  formControlName="comment" required>
+       </td>
+      </tr>
+
+      <br>
+
+      <tr>
+       <td><h5>On Behalf Of</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.behalf" formControlName="behalf" required>
+       </td>
+      </tr>
+
+       <br>
+
+      <tr>
+       <td><h5>Purchase Type</h5></td>
+       <td>
+
+      <select  [(ngModel)]="po.purchase_type" class="form-control" formControlName="purchase_type" required>
+            <option value="expense">Expense</option>
+            <option value="capital">Capital</option>
+            <option value="project">Project</option>
+            <option value="customer">Customer</option>
+            <option value="goods">Dangerous Goods</option>
+            <option value="materials">Raw Materials</option>
+            <option value="product1">Semi-finished Product</option>
+            <option value="product2">Finished Product</option>
+            <option value="repair">Maintenace repair and operating items</option>
+            <option value="transportation">Transportation and 3rd party purchasing</option>
+        </select>
+
+        </td>
+      </tr>
+
+      <br>
+
+      <tr>
+       <td><h5>Your Message</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.message" formControlName="message" required>
+       </td>
+      </tr>
+
+
+      </table>
+
+      <br>
+      <div class="text-right">
+        <button class="btn btn-primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Billing Details</ng-template>
+      <br>
+      <table>
+
+      <tr>
+        <td><h5>Bill Number&nbsp;</h5></td>
+        <td>
+        <input type="number" class="form-control"  [(ngModel)]="po.billNo" formControlName="billno" disabled required>
+        </td>
+      </tr>
+     <br>
+
+      <tr>
+        <td><h5>Currency&nbsp;</h5></td>
+        <td>
+     <select  [(ngModel)]="po.currency" class="form-control" formControlName="currency" required>
+            <option value="INR">INR</option>
+            <option value="Dollars">Dollars</option>
+            <option value="Euros">Euros</option>
+            <option value="yen">yen</option>
+        </select>
+     </td>
+      </tr>
+     <br>
+
+     <tr>
+       <td><h5>Organization To be Billed</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.org_billed" formControlName="org_billed" required>
+       </td>
+      </tr>
+
+       <br>
+
+       <tr>
+       <td><h5>Company Name</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.cmp_name" formControlName="cmp_name" required>
+       </td>
+      </tr>
+
+       <br>
+
+       <tr>
+       <td><h5>Location</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.location" formControlName="location" required>
+       </td>
+      </tr>
+
+       <br>
+
+       <tr>
+       <td><h5>Bill to Address</h5></td>
+       <td>
+       <textarea class="form-control" [(ngModel)]="po.bill_to_address" formControlName="bill_to_address" required></textarea>
+       </td>
+      </tr>
+
+       <br>
+
+       <tr>
+       <td><h5>Delivery To</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.delivery_to" formControlName="delivery_to" required>
+       </td>
+      </tr>
+
+       <br>
+
+       <tr>
+       <td><h5>Required By</h5></td>
+       <td>
+       <input type="date" class="form-control" [(ngModel)]="po.required_by" formControlName="required_by" required>
+       </td>
+      </tr>
+
+       <br>
+
+       <tr>
+       <td><h5>Delivery Address</h5></td>
+       <td>
+       <textarea class="form-control" [(ngModel)]="po.delivery_address" formControlName="delivery_address" required></textarea>
+       </td>
+      </tr>
+
+       <br>
+
+
+
+     </table>
+      <div class="text-right">
+        <button class="btn btn-primary" matStepperPrevious>Back</button>&nbsp;
+        <button class="btn btn-primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup">
+  <form [formGroup]="thirdFormGroup">
+    <ng-template matStepLabel>Cost Booking</ng-template>
+    <br>
+    <table>
+
+      <tr>
+        <td><h5>Cost Center&nbsp;</h5></td>
+        <td>
+        <input type="text" class="form-control" [(ngModel)]="po.cost_center" formControlName="cost_center" required>
+        </td>
+      </tr>
+     <br>
+
+     <tr>
+        <td><h5>Project Code&nbsp;</h5></td>
+        <td>
+        <input type="text" class="form-control"  [(ngModel)]="po.project_code" formControlName="project_code" required>
+        </td>
+      </tr>
+     <br>
+
+     <tr>
+        <td><h5>Budget Code&nbsp;</h5></td>
+        <td>
+        <input type="text" class="form-control"  [(ngModel)]="po.budget_code" formControlName="budget_code" required>
+        </td>
+      </tr>
+     <br>
+
+
+     </table>
+    <div class="text-right">
+      <button class="btn btn-primary" matStepperPrevious>Back</button>&nbsp;
+      <button class="btn btn-primary" matStepperNext>Next</button>
+    </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="fourthFormGroup">
+  <form [formGroup]="fourthFormGroup">
+    <ng-template matStepLabel>Item Info</ng-template>
+    <br>
+    <table>
+
+      <tr>
+        <td><h5>Item Name&nbsp;</h5></td>
+        <td>
+        <input type="text" class="form-control"   [(ngModel)]="item.name" formControlName="item_name" required>
+        </td>
+      </tr>
+     <br>
+
+     <tr>
+        <td><h5>Quantity&nbsp;</h5></td>
+        <td>
+        <input type="number" class="form-control"  [(ngModel)]="item.quantity"  formControlName="quantity" required>
+        </td>
+      </tr>
+     <br>
+
+     <tr>
+        <td><h5>Price Per Unit&nbsp;</h5></td>
+        <td>
+        <input type="number" class="form-control"  [(ngModel)]="item.price" formControlName="price" required>
+        </td>
+      </tr>
+     <br>
+
+     <tr>
+        <td><h5>Total Price&nbsp;</h5></td>
+        <td>
+        <input type="number" class="form-control"  [(ngModel)]="total" formControlName="total" required>
+        </td>
+      </tr>
+     <br>
+
+     </table>
+    <div class="text-right">
+      <button class="btn btn-primary" (click)="stepper.reset()">Reset</button>&nbsp;
+      <button class="btn btn-primary" matStepperPrevious>Back</button>&nbsp;
+      <button class="btn btn-primary" type="submit" (click)="onSubmit()">Submit</button>
+    </div>
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>
+
+<!-- <h1>Purchase Order {{ sub }} </h1>
+		<form  style="width:50%; margin:0 auto;" (ngSubmit) = "onSubmit()" novalidate name="purchase_order">
+<ul class="form-style-1">
+    <li>
+        <label>Requisition Name<span class="required">*</span></label>
+        <input type="text"  name="req_name" class="field-long"/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('req_name').hasError('required') && submitted">
+            Requisition Name cannot be empty
+        </div>
+
+    </li>
+	<li>
+		<label>Urgent Message<span class="required">*</span></label>
+		<input type="radio"  name="msg" value="yes">Yes<br>
+        <input type="radio" formControlName="msg" name="msg" value="no">No<br>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('msg').hasError('required') && submitted">
+            Urgency to be specified
+        </div>
+	</li>
+	<li>
+		<label>Attachments<span class="required">*</span></label>
+		<input type="file" name="attachments" accept="file_extension" required>
+	</li>
+	<li>
+        <label>Reason for ordering<span class="required">*</span></label>
+        <textarea  name="reason" id="field5" class="field-long field-textarea">
+        </textarea>
+        <div class="alert alert-danger" *ngIf = "purchase_order.get('reason').hasError('required') && submitted">
+            Specify reason for order
+        </div>
+    </li>
+	<li>
+        <label>Comments for supplier<span class="required">*</span></label>
+        <textarea  name="comments" id="field5" class="field-long field-textarea">
+        </textarea>
+
+    </li>
+	<li>
+        <label>On behalf of</label>
+        <input type="text"  name="behalf" class="field-long"/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('behalf').hasError('required') && submitted">
+            Please specify the field
+        </div>
+    </li>
+    <li>
+        <label>Purchase type</label>
+        <select  name="purchase_type" class="field-select">
+            <option value="expense">Expense</option>
+            <option value="capital">Capital</option>
+            <option value="project">Project</option>
+            <option value="customer">Customer</option>
+            <option value="goods">Dangerous Goods</option>
+            <option value="materials">Raw Materials</option>
+            <option value="product1">Semi-finished Product</option>
+            <option value="product2">Finished Product</option>
+            <option value="repair">Maintenace repair and operating items</option>
+            <option value="transportation">Transportation and 3rd party purchasing</option>
+        </select>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('purchase_type').hasError('required') && submitted">
+            Please specify the field
+        </div>
+    </li>
+    <li>
+        <label>Your Message <span class="required">*</span></label>
+        <textarea  name="message" id="field5" class="field-long field-textarea">
+        </textarea>
+    </li>
+	<br>
+	<hr>
+    <h3>Billing Info</h3>
+    <p id="bill_no" hidden>15<p>
+	<li>
+		<label>Billing No.<span class="required">*</span></label>
+        <input type="number" name="bill_num" class="field-long" (click) = "onClick()" required minlength="1"/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('bill_num').hasError('required') && submitted">
+            Billing Number cannot be empty
+        </div>
+    </li>
+    <script>
+
+    </script>
+	<li>
+        <label>Currency type</label>
+        <select  name="currency" class="field-select">
+            <option value="INR">INR</option>
+            <option value="Dollars">Dollars</option>
+            <option value="Euros">Euros</option>
+            <option value="yen">yen</option>
+        </select>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('currency').hasError('required') && submitted">
+            Please specify currency type
+        </div>
+    </li>
+	<li>
+        <label>Organisation to be billed<span class="required">*</span></label>
+        <input type="text"  name="org_billed" class="field-long"/>
+    </li>
+    <div class="alert alert-danger" *ngIf="purchase_order.get('org_billed').hasError('required') && submitted">
+        Please specify organisation name
+    </div>
+	<li>
+        <label>Company name<span class="required">*</span></label>
+        <input type="text"  name="cmp_name" class="field-long"/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('cmp_name').hasError('required') && submitted">
+            Please specify organisation name
+        </div>
+    </li>
+	<li>
+        <label>Location<span class="required">*</span></label>
+        <textarea  name="location" id="field5" class="field-long field-textarea"></textarea>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('location').hasError('required') && submitted">
+            Please specify location
+        </div>
+    </li>
+	<li>
+        <label>Bill to address<span class="required">*</span></label>
+        <textarea name="bill_to_address" id="field5" class="field-long field-textarea" required maxlength="150">
+        </textarea>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('bill_to_address').hasError('required') && submitted">
+            Please specify billing address
+        </div>
+    </li>
+	<li>
+        <label>Deliver to<span class="required">*</span></label>
+        <input type="text"  name="deliver_to" class="field-long" placeholder="Name"/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('deliver_to').hasError('required') && submitted">
+            Please specify organisation name
+        </div>
+    </li>
+	<li>
+        <label>Required by<span class="required">*</span></label>
+        <input type="date"  name="required_by" class="field-long" required/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('required_by').hasError('required') && submitted">
+            Please specify date of requirement
+        </div>
+
+        <div class="alert alert-danger" *ngIf="date">
+            Date cannot be previous one
+        </div>
+
+    </li>
+	<li>
+        <label>Delivery Address<span class="required">*</span></label>
+        <textarea name="deliver_address" id="field5" class="field-long field-textarea">
+        </textarea>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('deliver_address').hasError('required') && submitted">
+            Please specify address of delivery
+        </div>
+    </li>
+	<li>
+		<label>Cost of Booking<span class="required">*</span></label>
+        <input type="number" step ="any"  name="cost_booking" class="field-long"/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('cost_booking').hasError('required') && submitted">
+            Please specify cost of booking
+        </div>
+	</li>
+	<br>
+	<hr>
+	<h3>Cost Center info</h3>
+	<li>
+        <label>Cost Center<span class="required">*</span></label>
+        <input type="text"  name="cost_center" class="field-long" placeholder="Name"/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('cost_center').hasError('required') && submitted">
+            Please Cost center
+        </div>
+    </li>
+	<li>
+        <label>Budget Code<span class="required">*</span></label>
+        <input type="text"  name="budget_code" class="field-long" placeholder="Name"/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('budget_code').hasError('required') && submitted">
+            Please specify cost of booking
+        </div>
+    </li>
+	<br>
+	<hr>
+	<h3>Item info</h3>
+	<li>
+        <label>Item name<span class="required">*</span></label>
+        <input type="text"  [(ngModel)]='item.name' name="item_info" class="field-long" placeholder="Name"/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('item_name').hasError('required') && submitted">
+            Please specify Item Name
+        </div>
+    </li>
+	<li>
+        <label>Quantity<span class="required">*</span></label>
+        <input type="number"  [(ngModel)]='item.name' name="quantity" class="field-long" placeholder="Name"/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('quantity').hasError('required') && submitted">
+            Please specify Quantity
+        </div>
+    </li>
+	<li>
+        <label>Price per unit<span class="required">*</span></label>
+        <input type="number" step="any"  [(ngModel)]='item.price' name="price_per_unit" class="field-long" placeholder="Name"/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('price_per_unit').hasError('required') && submitted">
+            Please specify per Unit Price
+        </div>
+    </li>
+	<li>
+        <label>Total price<span class="required">*</span></label>
+        <input type="number" step="any"  [(ngModel)]='total' name="total_price" class="field-long" placeholder="Total Price" (click) = "cal_total()"/>
+        <div class="alert alert-danger" *ngIf="purchase_order.get('total_price').hasError('required') && submitted">
+            Please specify Total Price
+        </div>
+    </li>
+	<li>
+        <input type="submit" value="Submit" />
+    </li>
+
+</ul>
+</form>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
