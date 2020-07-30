@@ -15,7 +15,7 @@ import { EditResolverService } from './edit-resolver.service';
 import { RequisitionHomeComponent } from './requisition-home/requisition-home.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  // {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'admin', component: AdminComponent},
   {path: 'home', component: HomeComponent},

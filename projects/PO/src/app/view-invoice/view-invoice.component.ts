@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import jsPDF from 'jspdf';
 import {Invoice3Service} from '../invoice3.service';
 import {Invoice3} from '../invoice3';
 import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
@@ -23,6 +24,8 @@ import {
   styleUrls: ['./view-invoice.component.scss']
 })
 export class ViewInvoiceComponent implements OnInit {
+
+  @ViewChild('pdfTable', {static: false}) pdfTable: ElementRef;
 
   msg: string;
   actionButtonLabel = ':)';
@@ -166,6 +169,31 @@ export class ViewInvoiceComponent implements OnInit {
 
       return;
     }
+  }
+
+
+  downloadAsPDF() {
+    const doc = new jsPDF();
+
+
+    const pdfTable = this.pdfTable.nativeElement;
+
+    console.log(pdfTable.innerHTML);
+
+    var margins = {
+      top: 0,
+      bottom: 60,
+      left: 40,
+      width: 522
+    };
+
+
+    doc.fromHTML(pdfTable.innerHTML, margins.left, // x coord
+      margins.top, { // y coord
+          'width': margins.width
+      });
+
+    doc.save('invoice.pdf');
   }
 
 }

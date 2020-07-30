@@ -7,12 +7,16 @@ import { OrderService } from '../order.service';
   styleUrls: ['./requisition-home.component.scss']
 })
 export class RequisitionHomeComponent implements OnInit {
+  type: any;
 
   order: any = {};
 
   constructor(private orderService: OrderService) { }
 
   ngOnInit() {
+
+    this.type = localStorage.getItem('type');
+
     this.orderService.getAllOrderCount().subscribe((data: any) => {
       this.order.all = data;
     });

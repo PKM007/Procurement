@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  type: any;
+
   constructor() { }
 
   ngOnInit() {
+    this.type = localStorage.getItem('type');
   }
 
 }
