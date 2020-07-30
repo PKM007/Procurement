@@ -59,7 +59,7 @@
         <td><h5>Price &nbsp;</h5></td>
         <td>
         <div class="form-group">
-        <input type="text" class="form-control" [(ngModel)]="item.price" id="price" ngModel name="price" #price="ngModel"  pattern="[0-9.]*" required>
+        <input type="number" class="form-control" [(ngModel)]="item.price" id="price" ngModel name="price" #price="ngModel"  pattern="[0-9.]*" required>
         <div class ="alert alert-danger" *ngIf="price.touched && !price.valid">
         <div *ngIf="price.errors.required">Price is Required</div>
         <div *ngIf="price.errors.pattern">Price Pattern is Incorrect Use Character Like (0-9,.)</div>

@@ -25,18 +25,7 @@
     <input matInput placeholder="Enter your password" name="password" type="password" [(ngModel)]="password">
   </mat-form-field>
 
-  <br>
 
-  <mat-form-field class="example-full-width" appearance="outline">
-  <mat-label>Account Type</mat-label>
-  <mat-select [(ngModel)]="type" name="type">
-    <mat-option *ngFor="let type of accountType" [value]="type">
-      {{type}}
-    </mat-option>
-  </mat-select>
-  </mat-form-field>
-
-  <br>
   <br>
 
   <button mat-raised-button color="primary" (click)="login()">Submit</button>

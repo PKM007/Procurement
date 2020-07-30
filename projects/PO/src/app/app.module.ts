@@ -43,6 +43,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DeliveredPoComponent } from './delivered-po/delivered-po.component';
 import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
 import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
+import { TrackDashboardComponent } from './track-dashboard/track-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
     DeliveredPoComponent,
     EditInvoiceComponent,
     ViewInvoiceComponent,
+    TrackDashboardComponent,
   ],
   imports: [
     BrowserModule,

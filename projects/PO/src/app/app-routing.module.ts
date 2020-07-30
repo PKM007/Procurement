@@ -15,12 +15,14 @@ import { CheckPOComponent } from './check-po/check-po.component';
 import { DeliveredPoComponent } from './delivered-po/delivered-po.component';
 import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
 import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
+import { TrackDashboardComponent } from './track-dashboard/track-dashboard.component';
 
 
 
 const routes: Routes = [
   {path: "purchase-order", component: PurchaseOrderComponent, resolve: { po: POResolverService }},
   {path: "invoice", component: InvoiceComponent},
+  {path: "track-dashboard", component: TrackDashboardComponent},
   {path: "track-order", component: TrackOrderComponent},
   {path: "PO", component: AppComponent},
   {path: "createPO", component: CreatePOComponent},

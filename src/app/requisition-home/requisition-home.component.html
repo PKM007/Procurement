@@ -8,7 +8,13 @@
 <button style="background-color: #1d87cf;
       position: fixed;
       top: 13%;
-      right: 1rem;" mat-button [routerLink]="'/admin'">+Create Request</button>
+      right: 1rem;" mat-button [routerLink]="'/admin'"  *ngIf="type=='Requestor'; else Approver">+Create Request</button>
+<ng-template #Approver>
+<button style="background-color: #1d87cf;
+      position: fixed;
+      top: 13%;
+      right: 1rem;" mat-button disabled>+Create Request</button>
+</ng-template>
 
 <br>
 <hr>
@@ -58,7 +64,10 @@
     <mat-card-content style="color: red;" style="left: 81%;">{{ order.all }}</mat-card-content>
     <hr>
   <mat-card-actions align="end">
-    <button style="color: blue;" mat-button [routerLink]="'/request'"> View Requests </button>
+    <button style="color: blue;" mat-button [routerLink]="'/request'" *ngIf="type=='Requestor'; else Approver2"> View Requests </button>
+    <ng-template #Approver2>
+    <button mat-button [routerLink]="'/pending'" disabled> View Requests </button>
+    </ng-template>
   </mat-card-actions>
 </mat-card>
 </div>
@@ -79,8 +88,8 @@
     <br>
     <hr>
   <mat-card-actions align="end">
-    <button class="button-size" style="color: blue;" mat-button [routerLink]="'/createPO'" *ngIf="type=='Approver'; else not_approver3"> Create </button>
-    <ng-template #not_approver3>
+    <button class="button-size" style="color: blue;" mat-button [routerLink]="'/createPO'" *ngIf="type=='Requestor'; else Approver3"> Create </button>
+    <ng-template #Approver3>
     <button class="button-size" mat-button [routerLink]="'/createPO'" disabled> Create </button>
     </ng-template>
   </mat-card-actions>
@@ -96,7 +105,7 @@
     <br>
     <hr>
   <mat-card-actions align="end">
-    <button class="button-size" style="color: blue;" mat-button [routerLink]="'/track-order'"> Track </button>
+    <button class="button-size" style="color: blue;" mat-button [routerLink]="'/track-dashboard'"> Track </button>
   </mat-card-actions>
 </mat-card>
 </div>

@@ -31,6 +31,7 @@ const routes: Routes = [
   {path: 'PO', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
   {path: 'purchase-order', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
   {path: 'track-order', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
+  {path: 'track-dashboard', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
   {path: 'invoice', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
   {path: 'createPO', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
   {path: 'deliveredPO', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
